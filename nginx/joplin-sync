@@ -1,0 +1,15 @@
+server {
+    listen 9000;
+    server_name ${DUMMY_DOMAIN}; # dummy domain from docker-compose.yaml
+
+    location / {
+        proxy_pass http://${YOUR_IP_ADDRESS}:22300; # put here real ipv4 address of your server
+        proxy_set_header Host ${DUMMY_DOMAIN}; # dummy domain from docker-compose.yaml
+        proxy_read_timeout 150;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Protocol $scheme;
+        proxy_set_header X-Forwarded-Host $http_host;
+    }
+}
